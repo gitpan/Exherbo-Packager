@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+
+use 5.012;
+use warnings;
+
+use Exherbo::Packager;
+use Ouch;
+
+use constant CONFIG_LOC => $ENV{HOME}."/.exherbo-packager.yml";
+
+if ( not -f CONFIG_LOC ) {
+    Exherbo::Packager::init_config;
+}
+
+parse_args(@ARGV);
+foreach my $arg (@ARGV) {
+    Exherbo::Packager::gen_template($arg);
+}
+
+sub parse_args {
+    foreach (@_) {
+        if (not /^\w+(?:::\w+)*$/) {
+            barf("$_ is not a valid perl module name");
+        }
+    }
+}
