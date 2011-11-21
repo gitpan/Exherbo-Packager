@@ -1,12 +1,78 @@
 #!/usr/bin/env perl
 
-use 5.012;
+=pod
+
+=head1 NAME
+
+ex-packer - the automated Exherbo Perl module packager
+
+=head1 DESCRIPTION
+
+ex-packager is a tool that automatically packages perl modules into exherbo
+exheres. Currently, this only works for Perl modules, but other scripting
+languages are planned (Ruby, Python...Haskell even?).
+
+=head1 USAGE
+
+exp-packer [-hv] [[perl module]...]
+
+B<--help -h>
+
+=over 4
+
+=item Prints help text
+
+=back
+
+B<--version -v>
+
+=over 4
+
+=item Prints version number
+
+=back
+
+=head1 CONFIGURATION
+
+The configuration file is located in ~/.exherbo-packager.yml. If it does not
+exist when you run ex-packer, it will be created for you. Feel free to edit it
+by hand, it's fairly self explanatory.
+
+=head1 SEE ALSO
+
+Exherbo::Packager
+
+=head1 AUTHOR
+
+William Orr <will@worrbase.com>
+
+=cut
+
+use 5.010;
 use warnings;
 
 use Exherbo::Packager;
+use Getopt::Long;
 use Ouch;
+use Pod::Usage;
 
 use constant CONFIG_LOC => $ENV{HOME}."/.exherbo-packager.yml";
+
+my $help;
+my $vers;
+our $VERSION = '1.0';
+
+GetOptions('help|h' => \$help, 'version|v' => \$vers);
+
+if ($help) {
+    pod2usage(1);
+    exit(0);
+}
+
+if ($vers) {
+    say "ex-packer version $VERSION";
+    exit(0);
+}
 
 if ( not -f CONFIG_LOC ) {
     Exherbo::Packager::init_config;

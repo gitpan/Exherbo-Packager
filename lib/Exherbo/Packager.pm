@@ -2,19 +2,78 @@ package Exherbo::Packager;
 
 # ABSTRACT: Generates exheres for perl modules
 
+=pod
+
+=head1 NAME
+
+Exherbo::Packager
+
+=head1 SYNOPSIS
+
+ use Exherbo::Packager qw/init_config gen_template/;
+ my $config_loc = "/etc/exherbo-packager.yml"
+ init_config($config_loc);
+ gen_template("Exherbo::Packager");
+
+=head1 DESCRIPTION
+
+This module exports two functions, one to initialize the configuration of the
+packager, and the other to generate the exheres. Currently, this package only
+generates Exheres for Perl modules, but support for other languages is coming
+soon.
+
+An OO version of this module is also planned, since exporting things into the
+global namespace is icky.
+
+=head2 gen_template($modname)
+
+gen_template takes one argument, and that is the name of the perl module you
+wish to generate. It will output the exheres in your current directory, in a
+subdirectory named by the category it chooses.
+
+This will B<die> with an error if the exheres already exists.
+
+=head2 init_config
+
+=head2 init_config($config_loc)
+
+init_config can optionally take one argument, that being the location of the
+config file you wish to use for this run of the packager. Once run, it will get
+all of the configuration information for calls to C<gen_template()>.
+
+=head1 BUGS
+
+=over 1
+=item No OO interface
+=item Not very generic or extendable
+=item Little error checking
+=back
+
+=head1 AUTHOR
+
+William Orr <will@worrbase.com>
+
+=cut
+
+
 use strict;
 use warnings;
 use 5.010;
 
 use DateTime;
+use Exporter;
 use MetaCPAN::API;
 use Ouch;
 use YAML::Any qw/LoadFile DumpFile/;
+
+our @ISA = qw/Exporter/;
+our @EXPORT_OK = qw/init_config gen_template/;
 
 use constant CONFIG_LOC => $ENV{HOME}."/.exherbo-packager.yml";
 
 my $mcpan;
 my $config;
+
 
 sub gen_template {
     my ($name) = @_;

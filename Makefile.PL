@@ -9,25 +9,25 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Generates exheres for perl modules',
-  'AUTHOR' => 'William Orr <will@worrbase.com>',
-  'BUILD_REQUIRES' => {
-    'Module::Build' => '0.3601'
+  "ABSTRACT" => "Generates exheres for perl modules",
+  "AUTHOR" => "William Orr <will\@worrbase.com>",
+  "BUILD_REQUIRES" => {
+    "Module::Build" => "0.3601"
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.30',
-    'Module::Build' => '0.3601'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30",
+    "Module::Build" => "0.3601"
   },
-  'DISTNAME' => 'Exherbo-Packager',
-  'EXE_FILES' => [
-    'bin/ex-packer'
+  "DISTNAME" => "Exherbo-Packager",
+  "EXE_FILES" => [
+    "bin/ex-packer"
   ],
-  'LICENSE' => 'mit',
-  'NAME' => 'Exherbo::Packager',
-  'PREREQ_PM' => {},
-  'VERSION' => '1.113190',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "LICENSE" => "mit",
+  "NAME" => "Exherbo::Packager",
+  "PREREQ_PM" => {},
+  "VERSION" => "1.113250",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 
