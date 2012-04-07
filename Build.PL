@@ -18,12 +18,21 @@ my %module_build_args = (
     "William Orr <will\@worrbase.com>"
   ],
   "dist_name" => "Exherbo-Packager",
-  "dist_version" => "1.113250",
+  "dist_version" => "1.120980",
   "license" => "mit",
   "module_name" => "Exherbo::Packager",
   "recommends" => {},
   "recursive_test_files" => 1,
-  "requires" => {},
+  "requires" => {
+    "DateTime" => 0,
+    "File::Copy" => 0,
+    "Getopt::Long" => 0,
+    "MetaCPAN::API" => 0,
+    "Ouch" => 0,
+    "Pod::Usage" => 0,
+    "Test::More" => 0,
+    "YAML::Any" => 0
+  },
   "script_files" => [
     "bin/ex-packer"
   ]

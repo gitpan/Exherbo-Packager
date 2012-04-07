@@ -5,7 +5,7 @@ use warnings;
 use 5.012;
 
 use File::Copy qw/cp mv/;
-use Test::More tests => 18;
+use Test::More;
 use YAML::Any qw/LoadFile/;
 
 BEGIN { use_ok('Exherbo::Packager') }
@@ -72,3 +72,5 @@ chdir('..');
 unlink('t/dev-perl/WWW-Formspring-0.03.exheres-0');
 rmdir('t/dev-perl');
 mv('t/config.yml.old', 't/config.yml');
+
+done_testing;

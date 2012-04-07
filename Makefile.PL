@@ -24,8 +24,17 @@ my %WriteMakefileArgs = (
   ],
   "LICENSE" => "mit",
   "NAME" => "Exherbo::Packager",
-  "PREREQ_PM" => {},
-  "VERSION" => "1.113250",
+  "PREREQ_PM" => {
+    "DateTime" => 0,
+    "File::Copy" => 0,
+    "Getopt::Long" => 0,
+    "MetaCPAN::API" => 0,
+    "Ouch" => 0,
+    "Pod::Usage" => 0,
+    "Test::More" => 0,
+    "YAML::Any" => 0
+  },
+  "VERSION" => "1.120980",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -8,10 +8,19 @@ configure_requires:
   ExtUtils::MakeMaker: 6.30
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300003, CPAN::Meta::Converter version 2.112621'
+generated_by: 'Dist::Zilla version 4.300013, CPAN::Meta::Converter version 2.120630'
 license: mit
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Exherbo-Packager
-version: 1.113250
+requires:
+  DateTime: 0
+  File::Copy: 0
+  Getopt::Long: 0
+  MetaCPAN::API: 0
+  Ouch: 0
+  Pod::Usage: 0
+  Test::More: 0
+  YAML::Any: 0
+version: 1.120980

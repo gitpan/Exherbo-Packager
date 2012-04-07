@@ -117,7 +117,7 @@ DEPENDENCIES="
 EOF
 ;
     my $deps = _gen_deps($release->{dependency});
-    foreach my $k (keys %$deps) {
+    foreach my $k (sort { uc $a cmp uc $b } keys %$deps) {
         say $fh "        dev-perl/$deps->{$k}"
     }
     print $fh <<EOF
