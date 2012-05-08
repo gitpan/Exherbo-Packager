@@ -8,6 +8,8 @@ use File::Copy qw/cp mv/;
 use Test::More;
 use YAML::Any qw/LoadFile/;
 
+use constant TESTFILE => 'Mouse-0.97.exheres-0';
+
 BEGIN { use_ok('Exherbo::Packager') }
 use Exherbo::Packager;
 
@@ -56,12 +58,12 @@ ok($deps = Exherbo::Packager::_gen_deps($rel->{dependency}));
 is_deeply(\@deps, ['ExtUtils-MakeMaker', 'Test-Harness']);
 
 chdir('t');
-ok(Exherbo::Packager::gen_template('WWW::Formspring'));
-open(my $fh, '<', 'dev-perl/WWW-Formspring-0.03.exheres-0');
+ok(Exherbo::Packager::gen_template('Mouse'));
+open(my $fh, '<', 'dev-perl/'.TESTFILE);
 my @gen_text = <$fh>;
 close($fh);
 
-open($fh, '<', 'WWW-Formspring-0.03.exheres-0');
+open($fh, '<', TESTFILE);
 my @orig_text = <$fh>;
 close($fh);
 
@@ -69,7 +71,7 @@ is_deeply(\@gen_text, \@orig_text);
 
 chdir('..');
 
-unlink('t/dev-perl/WWW-Formspring-0.03.exheres-0');
+unlink('t/dev-perl/'.TESTFILE);
 rmdir('t/dev-perl');
 mv('t/config.yml.old', 't/config.yml');
 

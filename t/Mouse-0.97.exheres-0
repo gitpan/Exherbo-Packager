@@ -1,0 +1,26 @@
+# Copyright 2012 Will Orr <will@worrbase.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require perl-module [ module_author=GFUJI ]
+
+SUMMARY="Moose minus the antlers"
+DESCRIPTION="
+Moose is a postmodern object system for Perl5. Moose is wonderful. Unfortunately, Moose has a compile-time penalty. Though significant progress has been made over the years, the compile time penalty is a non-starter for some very specific applications. If you are writing a command-line application or CGI script where startup time is essential, you may not be able to use Moose (we recommend that you instead use persistent Perl executing environments like "FastCGI" for the latter, if possible). Mouse is a Moose compatible object system, which aims to alleviate this penalty by providing a subset of Moose's functionality. We're also going as light on dependencies as possible. Mouse currently has no dependencies except for building/testing modules. Mouse also works without XS, although it has an XS backend to make it much faster. Moose Compatibility Compatibility with Moose has been the utmost concern. The sugary interface is highly compatible with Moose. Even the error messages are taken from Moose. The Mouse code just runs its test suite 4x faster. The idea is that, if you need the extra power, you should be able to run "s/Mouse/Moose/g" on your codebase and have nothing break. To that end, we have written Any::Moose which will act as Mouse unless Moose is loaded, in which case it will act as Moose. Since Mouse is a little sloppier than Moose, if you run into weird errors, it would be worth running: ANY_MOOSE=Moose perl your-script.pl to see if the bug is caused by Mouse. Moose's diagnostics and validation are also better. See also Mouse::Spec for compatibility and incompatibility with Moose. Mouse Extentions Please don't copy MooseX code to MouseX. If you need extensions, you really should upgrade to Moose. We don't need two parallel sets of extensions! If you really must write a Mouse extension, please contact the Moose mailing list or #moose on IRC beforehand.
+"
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-perl/Devel-PPPort-3.20
+        dev-perl/ExtUtils-MakeMaker-6.62
+        dev-perl/ExtUtils-ParseXS-3.15
+        dev-perl/Scalar-List-Utils-1.25
+        dev-perl/Test-Simple-0.98
+        dev-perl/XSLoader-0.15
+"
+
+BUGS_TO="will@worrbase.com"
+

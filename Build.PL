@@ -18,7 +18,7 @@ my %module_build_args = (
     "William Orr <will\@worrbase.com>"
   ],
   "dist_name" => "Exherbo-Packager",
-  "dist_version" => "1.120980",
+  "dist_version" => "1.121290",
   "license" => "mit",
   "module_name" => "Exherbo::Packager",
   "recommends" => {},
