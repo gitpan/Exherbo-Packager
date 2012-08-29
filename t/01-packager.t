@@ -8,7 +8,7 @@ use File::Copy qw/cp mv/;
 use Test::More;
 use YAML::Any qw/LoadFile/;
 
-use constant TESTFILE => 'Mouse-0.97.exheres-0';
+use constant TESTFILE => 'Mouse-1.02.exheres-0';
 
 BEGIN { use_ok('Exherbo::Packager') }
 use Exherbo::Packager;

@@ -9,6 +9,6 @@ bin/ex-packer
 dist.ini
 lib/Exherbo/Packager.pm
 t/01-packager.t
-t/Mouse-0.97.exheres-0
+t/Mouse-1.02.exheres-0
 t/config.yml
 t/input.1
