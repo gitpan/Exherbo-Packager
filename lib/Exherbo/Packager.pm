@@ -76,26 +76,23 @@ my $config;
 
 
 sub gen_template {
-    my ($name) = @_;
+    my ($name, $fh) = @_;
 
     my $mod = _get_module_info($name);
     my $release = _get_release_info($mod);
-    my $outfile = _get_outfile_name($mod);
     my $dt = DateTime->now();
-
-    _prep_env($outfile);
-    ouch(400, "Exheres already exists at $outfile!") if ( -f $outfile);
-
-    open(my $fh, '>', $outfile) or ouch(400, "Could not open $outfile for
-        write");
     
     if (not $config) { $config = _get_config(); }
     my $year = $dt->year;
 
     unless ($mod->{description}) {
         bleep("No description available");
-        $mod->{description} = "Describe me!"
+        $mod->{description} = "Describe me!";
+        $mod->{abstract} = "A nifty little abstract should go here!";
     }
+
+    $mod->{description} = sanitize($mod->{description});
+    $mod->{abstract} = sanitize($mod->{abstract});
 
     print $fh <<EOF
 # Copyright $year $config->{name} <$config->{email}>
@@ -127,8 +124,6 @@ BUGS_TO="$config->{email}"
 
 EOF
 ;
-
-    close($fh);
 }
 
 sub _get_module_info {
@@ -145,7 +140,7 @@ sub _get_release_info {
     my ($mod) = @_;
 
     my $rel = $mcpan->release(distribution => $mod->{distribution}, release => $mod->{release});
-    ouch(404, "Release $mod->{distribution} not found") if (not $rel);
+    barf("Release $mod->{distribution} not found") if (not $rel);
     return $rel;
 }
 
@@ -154,22 +149,18 @@ sub _get_config {
     $lconfig = shift if (@_);
     eval {
         return $config //= LoadFile($lconfig);
-    } or ouch(400, "Could not read config");
+    } or barf("Could not read config");
 }
 
-sub _get_outfile_name {
+sub get_outfile_name {
     my $mod = shift;
-    return "dev-perl/$mod->{release}.exheres-0";
-}
 
-sub _prep_env {
-    my ($outfile) = @_;
-
-    my $dir = $outfile;
-    $dir =~ s/\/.+//;
-    if (not -d $dir) {
-        mkdir($dir) or ouch(403, 'Cannot create directory');
+    if (ref($mod) ne "HASH") {
+        $mod = _get_module_info($mod);
     }
+
+    return "$mod->{release}.exheres-0";
+
 }
 
 sub _gen_deps {
@@ -214,6 +205,12 @@ sub init_config {
         }
         DumpFile($lconfig, $conf_info) 
     } or ouch 400, "Could not open config file for writing";
+}
+
+sub sanitize {
+    my $in = shift;
+    $in =~ s/"/\"/g;
+    return $in;
 }
 
 sub _sane_chomp {

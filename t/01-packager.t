@@ -26,16 +26,10 @@ my $rel = Exherbo::Packager::_get_release_info($mod);
 is($rel->{author}, 'MSCHWERN');
 is($rel->{maturity}, 'released');
 
-like(Exherbo::Packager::_get_outfile_name($mod), qr/dev\-perl\/Test\-Simple\-\d+\.\d+\.exheres\-0/, "Test outfile name");
-my $outfile = Exherbo::Packager::_get_outfile_name($mod);
+like(Exherbo::Packager::get_outfile_name($mod), qr/Test\-Simple\-\d+\.\d+\.exheres\-0/, "Test outfile name");
+my $outfile = Exherbo::Packager::get_outfile_name($mod);
 
 ok(Exherbo::Packager::_get_config('t/config.yml'), 'test config loading');
-
-chdir('t');
-ok(Exherbo::Packager::_prep_env($outfile));
-ok( -d 'dev-perl/');
-chdir('..');
-rmdir('t/dev-perl');
 
 {
     open(FH, 't/input.1') or die $!;
@@ -58,8 +52,10 @@ ok($deps = Exherbo::Packager::_gen_deps($rel->{dependency}));
 is_deeply(\@deps, ['ExtUtils-MakeMaker', 'Test-Harness']);
 
 chdir('t');
-ok(Exherbo::Packager::gen_template('Mouse'));
-open(my $fh, '<', 'dev-perl/'.TESTFILE);
+open(my $fh, '>', TESTFILE);
+ok(Exherbo::Packager::gen_template('Mouse', $fh));
+close($fh);
+open($fh, '<', TESTFILE);
 my @gen_text = <$fh>;
 close($fh);
 
@@ -71,8 +67,7 @@ is_deeply(\@gen_text, \@orig_text);
 
 chdir('..');
 
-unlink('t/dev-perl/'.TESTFILE);
-rmdir('t/dev-perl');
+unlink('t/'.TESTFILE);
 mv('t/config.yml.old', 't/config.yml');
 
 done_testing;
