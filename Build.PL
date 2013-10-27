@@ -18,7 +18,7 @@ my %module_build_args = (
     "William Orr <will\@worrbase.com>"
   ],
   "dist_name" => "Exherbo-Packager",
-  "dist_version" => "1.122480",
+  "dist_version" => "1.133000",
   "license" => "mit",
   "module_name" => "Exherbo::Packager",
   "recommends" => {},
@@ -30,14 +30,30 @@ my %module_build_args = (
     "MetaCPAN::API" => 0,
     "Ouch" => 0,
     "Pod::Usage" => 0,
-    "Test::More" => 0,
     "YAML::Any" => 0
   },
   "script_files" => [
     "bin/ex-packer"
-  ]
+  ],
+  "test_requires" => {
+    "Test::More" => 0,
+    "Test::Perl::Critic" => 0
+  }
 );
 
+
+unless ( eval { Module::Build->VERSION(0.4004) } ) {
+  my $tr = delete $module_build_args{test_requires};
+  my $br = $module_build_args{build_requires};
+  for my $mod ( keys %$tr ) {
+    if ( exists $br->{$mod} ) {
+      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
+    }
+    else {
+      $br->{$mod} = $tr->{$mod};
+    }
+  }
+}
 
 my $build = Module::Build->new(%module_build_args);
 

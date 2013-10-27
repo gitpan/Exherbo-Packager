@@ -5,12 +5,12 @@ use warnings;
 use 5.012;
 
 use File::Copy qw/cp mv/;
+use MetaCPAN::API;
 use Test::More;
 use YAML::Any qw/LoadFile/;
 
 use constant TESTFILE => 'Mouse-1.02.exheres-0';
 
-BEGIN { use_ok('Exherbo::Packager') }
 use Exherbo::Packager;
 
 my $test_pkg = "Test::More";
@@ -18,12 +18,15 @@ my $test_pkg = "Test::More";
 ok(Exherbo::Packager::_get_module_info($test_pkg));
 my $mod = Exherbo::Packager::_get_module_info($test_pkg);
 
+my $mcpan = MetaCPAN::API->new();
+my $expected_mod = $mcpan->module("Test::Simple");
+
 is($mod->{distribution}, 'Test-Simple');
 like($mod->{version}, qr/\d+\.\d+/);
-is($mod->{author}, 'MSCHWERN');
+is($mod->{author}, $expected_mod->{author});
 
 my $rel = Exherbo::Packager::_get_release_info($mod);
-is($rel->{author}, 'MSCHWERN');
+is($rel->{author}, $expected_mod->{author});
 is($rel->{maturity}, 'released');
 
 like(Exherbo::Packager::get_outfile_name($mod), qr/Test\-Simple\-\d+\.\d+\.exheres\-0/, "Test outfile name");
@@ -48,8 +51,8 @@ is($config->{email}, 'will@worrbase.com', 'testing config');
 
 my ($deps, @deps);
 ok($deps = Exherbo::Packager::_gen_deps($rel->{dependency}));
-@deps = keys %$deps;
-is_deeply(\@deps, ['ExtUtils-MakeMaker', 'Test-Harness']);
+@deps = sort keys %$deps;
+is_deeply(\@deps, ['ExtUtils-MakeMaker', 'Scalar-List-Utils', 'Test-Harness']);
 
 chdir('t');
 open(my $fh, '>', TESTFILE);
